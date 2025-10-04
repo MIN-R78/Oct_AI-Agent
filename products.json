@@ -1,0 +1,90 @@
+[
+  {
+    "id": "p001",
+    "name": "Sport T-Shirt",
+    "category": "apparel",
+    "price": 29.9,
+    "color": "white",
+    "description": "Breathable quick-dry sport t-shirt for running and gym.",
+    "image_path": "data/images/sport_tshirt.jpg",
+    "brand": "AeroFit",
+    "rating": 4.4
+  },
+  {
+    "id": "p002",
+    "name": "Casual T-Shirt",
+    "category": "apparel",
+    "price": 19.9,
+    "color": "white",
+    "description": "Soft cotton tee for everyday wear.",
+    "image_path": "data/images/casual_tshirt.jpg",
+    "brand": "DailyBasics",
+    "rating": 4.2
+  },
+  {
+    "id": "p003",
+    "name": "Running Shoes",
+    "category": "shoes",
+    "price": 79.0,
+    "color": "red/blue",
+    "description": "Lightweight running shoes with good cushioning.",
+    "image_path": "data/images/running_shoes.jpg",
+    "brand": "SwiftStep",
+    "rating": 4.5
+  },
+  {
+    "id": "p004",
+    "name": "Basketball Shoes",
+    "category": "shoes",
+    "price": 99.0,
+    "color": "red/blue",
+    "description": "High-ankle basketball shoes for better support on the court.",
+    "image_path": "data/images/basketball_shoes.jpg",
+    "brand": "ProCourt",
+    "rating": 4.6
+  },
+  {
+    "id": "p005",
+    "name": "Ankle Socks (5-Pack)",
+    "category": "accessories",
+    "price": 12.9,
+    "color": "white/gray",
+    "description": "Breathable ankle socks for daily use and sports.",
+    "image_path": "data/images/ankle_socks.jpg",
+    "brand": "ComfortWear",
+    "rating": 4.3
+  },
+  {
+    "id": "p006",
+    "name": "Leather Jacket",
+    "category": "apparel",
+    "price": 149.9,
+    "color": "black",
+    "description": "Stylish leather jacket for casual and party wear.",
+    "image_path": "data/images/leather_jacket.jpg",
+    "brand": "UrbanEdge",
+    "rating": 4.7
+  },
+  {
+    "id": "p007",
+    "name": "Backpack",
+    "category": "bags",
+    "price": 49.9,
+    "color": "dark gray",
+    "description": "Durable backpack with multiple compartments for daily use.",
+    "image_path": "data/images/backpack.jpg",
+    "brand": "CarryAll",
+    "rating": 4.5
+  },
+  {
+    "id": "p008",
+    "name": "Baseball Cap",
+    "category": "accessories",
+    "price": 15.9,
+    "color": "white",
+    "description": "Classic baseball cap with adjustable strap.",
+    "image_path": "data/images/baseball_cap.jpg",
+    "brand": "HeadGear",
+    "rating": 4.1
+  }
+]
