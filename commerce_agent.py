@@ -3,24 +3,24 @@ import os
 import re
 from engine.vector_store import ProductVectorStore
 
-### we use SentenceTransformer for small talk matching #%#
+### Use SentenceTransformer for small talk matching
 from sentence_transformers import SentenceTransformer, util
 
-### project base + images folder #%#
+### project base + images folder
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 IMAGES_DIR = os.path.join(BASE_DIR, "data", "images")
 
 
 class CommerceAgent:
     def __init__(self):
-        ### init product index (FAISS + embeddings) #%#
+        ### init product index (FAISS + embeddings)
         self.vector_store = ProductVectorStore()
         self.vector_store.build_index()
 
         ### light model for chat-like answers #%#
         self.chat_model = SentenceTransformer("all-MiniLM-L6-v2")
 
-        ### some canned replies for casual chit-chat #%#
+        ### some canned replies for casual chit-chat
         self.small_talk = {
             "what's your favorite color": "I like blue, it feels calm and smart.",
             "did you eat": "Haha, I don’t eat, but I’m always ready to help you shop.",
@@ -32,26 +32,26 @@ class CommerceAgent:
             "i'm sad": "I’m sorry to hear that. Sometimes shopping for something nice can help cheer you up.",
         }
 
-        ### pre-calc embeddings for above small talk keys (faster lookup) #%#
+        ### pre-calc embeddings for above small talk keys
         self.st_embeddings = self.chat_model.encode(
             list(self.small_talk.keys()), convert_to_tensor=True
         )
 
     def resolve_image_path(self, image_name: str):
-        ### sanity check: does this image file exist in /data/images ? #%#
+        ### sanity check: does this image file exist in /data/images
         candidate = os.path.join(IMAGES_DIR, image_name)
         if os.path.exists(candidate):
             return candidate
         return None
 
     def extract_keywords(self, text: str):
-        ### quick+dirty keyword extractor (regex tokenize, remove stopwords)
+        ### quick+dirty keyword extractor
         tokens = re.findall(r"\w+", text.lower())
         stopwords = {"the", "is", "a", "an", "and", "or", "in", "on", "for", "with", "to", "of", "at"}
         return [t for t in tokens if t not in stopwords]
 
     def keyword_filter(self, query: str, results: list, top_k: int = 3, strict=True):
-        ### strict keyword filter (force all keywords appear in product text) #%#
+        ### strict keyword filter
         if not results:
             return []
 
@@ -74,7 +74,7 @@ class CommerceAgent:
         return []
 
     def safe_search(self, **kwargs):
-        ### run vector_store.search but catch crashes (FAISS can throw errors)
+        ### run vector_store.search but catch crashes
         try:
             results = self.vector_store.search(**kwargs) or []
             return results
@@ -83,7 +83,7 @@ class CommerceAgent:
             return []
 
     def handle_query(self, query: str):
-        ### text query only (with strict filter) #%#
+        ### text query only (with strict filter)
         results = self.safe_search(query_text=query, top_k=15)
         results = self.keyword_filter(query, results, top_k=3, strict=True)
         return self.format_results(results)
@@ -100,7 +100,7 @@ class CommerceAgent:
         return self.format_results(results)
 
     def handle_mixed_query(self, text: str, image_name: str):
-        ### hybrid search: combine text + image, filter only on text part #%#
+        ### hybrid search: combine text + image, filter only on text part
         path = self.resolve_image_path(image_name)
         if not path:
             available = os.listdir(IMAGES_DIR)
@@ -111,14 +111,14 @@ class CommerceAgent:
         return self.format_results(results)
 
     def handle_general_conversation(self, query: str):
-        ### rule-based responses first (fast path) #%#
+        ### rule-based responses first (fast path)
         q = query.lower()
 
         if any(greet in q for greet in ["hello", "hi", "hey"]):
             return "Hello! How can I help you today?"
 
         elif "your name" in q or "who are you" in q:
-            return "I’m Palona AI Agent, here to help you with products."
+            return "I’m Mary AI Agent, here to help you with products."
 
         elif "what can you do" in q:
             return "I can chat and also help you search products. Try asking about shoes, jackets, or images."
@@ -134,7 +134,7 @@ class CommerceAgent:
             from datetime import datetime
             return f"Today is {datetime.now().strftime('%A, %B %d, %Y')}."
 
-        ### no rule matched → semantic similarity on small talk #%#
+        ### no rule matched → semantic similarity on small talk
         query_emb = self.chat_model.encode(q, convert_to_tensor=True)
         cos_scores = util.pytorch_cos_sim(query_emb, self.st_embeddings)[0]
         best_match_id = int(cos_scores.argmax())
@@ -152,7 +152,7 @@ class CommerceAgent:
         return "No products found. Please try with another keyword."
 
     def format_results(self, results):
-        ### format into chat-friendly lines (name, desc, price, rating) #%#
+        ### format into chat-friendly lines (name, desc, price, rating)
         if not results:
             return "No products found."
         output = "\nHere are some products I found for you:\n"
@@ -163,7 +163,7 @@ class CommerceAgent:
 
 if __name__ == "__main__":
     agent = CommerceAgent()
-    print("Hello! I am Palona AI Agent.")
+    print("Hello! I am Mary AI Agent.")
     print("You can:")
     print(" - Chat with me (e.g., 'What's your name?')")
     print(" - Ask casual questions (e.g., 'Do you like sports?')")

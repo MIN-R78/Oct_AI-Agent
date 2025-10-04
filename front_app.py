@@ -9,7 +9,7 @@ sys.path.append(str(BASE_DIR))
 from agent.commerce_agent import CommerceAgent
 
 ### page setup
-st.set_page_config(page_title="Palona AI Agent", layout="centered")
+st.set_page_config(page_title="Mary AI Agent", layout="centered")
 
 ### quick CSS tweak for background + chat bubbles
 st.markdown(
@@ -23,7 +23,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.title("Palona AI Agent")
+st.title("Mary AI Agent")
 
 ### init agent + history
 if "agent" not in st.session_state:
